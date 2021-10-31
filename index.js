@@ -33,7 +33,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const dbURL = 'mongodb://localhost:27017/ismConnect';
+const dbURL = process.env.dbURL || 'mongodb://localhost:27017/ismConnect';
 
 // Connect MongoDB at default port 27017.
 mongoose.connect( dbURL, {
