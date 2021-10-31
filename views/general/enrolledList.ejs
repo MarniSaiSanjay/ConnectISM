@@ -1,0 +1,162 @@
+<% layout('layout/boilerplate') %> 
+
+<style>
+    .card{
+        font-size: 1.4rem;
+    }
+
+    @media screen and (max-width:320px) {
+        .email_ span{
+            display: none;
+    }
+    }
+    .enroll_candi:hover{
+        box-shadow: 0 0 20px rgba(33, 33, 33, .16);
+    }
+
+</style>
+
+<div class="card col-lg-8 col-md-8 col-sm-11 col-10 my-3 ms-auto me-auto">
+    <div class="card-body ms-auto me-auto">
+        <h2 class="card-title" style="font-family: 'Comic Sans MS', 'Comic Sans', 'cursive';"> <%= event.title.toUpperCase() %>
+        </h2>
+        <% if(event.description!='' ) {%>
+            <h5 class="card-text" style="color: rgba(24, 22, 22, 0.705);">
+                <%= event.description %>
+            </h5>
+            <% } %>
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item ">
+                <% if(event.club!='undefined' ){ %>
+                    <h6 class="text-muted"> Organised by: &nbsp;  <%= event.club %>
+                    </h6>
+                    <% }else{ %>
+                        <h5 class="text-muted"> Organised by: &nbsp;  <%= event.author.name %>
+                        </h5>
+                        <% } %>
+        </li>
+      
+      <% 
+        var a = event.date;
+        // console.log(a);
+        var b = a.toString(); //console.log(b);
+        var c = b.substring(0,15); // substring -> (starting index, ending index(excluded))
+        var arr = c.split(" ");
+        var date = arr[2];var year = arr[3];var day = arr[0];
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var mon = months.indexOf(arr[1])+1;
+        var dateArray = [date, mon, year];
+        var fDate = dateArray.join('/');
+        var onlyDate = fDate + ' (' + day + ')'; // console.log(onlyDate);
+        var time = b.substr(16,8) + ' hours'  // time -> time of event; substr -> (index, length from that index) 
+        var displayDate = onlyDate;
+     
+     %>
+        <li class="list-group-item" class="date_field">Date: &nbsp; <%= displayDate %>
+        </li>
+        <li class="list-group-item">
+            Time: &nbsp; <%= time %> 
+        </li>
+        
+        <li class="list-group-item">Venue: &nbsp;  <%= event.venue %>
+        </li>
+        <li class="list-group-item">Enrolled: <%= event.enrolled.length %>
+        </li>
+    </ul>
+    <div class="card-body">
+        <% if(!event.author.equals(currentUser._id)){ %>
+            <div style="display: flex; flex-direction: row;">
+                <form action="/event/<%= e.id %>/enroll" method="post">
+                    <button type="submit" id="enroll" class="me-2 btn btn-success">Enroll</button>
+                </form>
+                <form action="/event/<%= e.id %>/unenroll" method="post">
+                    <button type="submit" id="unenroll" class="btn btn-danger">UnEnroll</button>
+                </form>
+            </div>
+            <% } %>
+                <% if (currentUser && event.author.equals(currentUser._id) ){ %>
+                    <div style="display: flex; flex-direction: row;">
+                        <div class="col-lg-11 col-sm-11 col-md-11 col-10">
+                            <a href="/event/<%= event.id %>/edit"
+                                class="col-lg-10 col-md-10 col-sm-4 col-8 btn btn-info my-1"
+                                style="width: auto;">Edit</a>
+
+                                <button type="button" class="btn btn-danger " data-bs-toggle="modal"
+                                data-bs-target="#deleteModal">
+                                Delete
+                            </button>
+                            <!-- Modal -->
+                            <div class="modal fade" id="deleteModal" tabindex="-1"
+                            aria-labelledby="deleteLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteLabel">Are you sure to
+                                            delete?</h5>
+                                        <button type="button" class="btn-close"
+                                            data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>This action cannot be undone.</p>
+                                      
+                                        <form action="/event/<%= event.id %>?_method=DELETE"
+                                            method="POST"
+                                            class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                            <button type="submit" class="btn btn-danger mt-1"
+                                                style="width: 100%;">Yes
+                                            </button>
+                                        </form>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>        
+                    </div>
+                    <% } %>
+    </div>
+</div>
+<hr class="col-lg-10 col-md-10 col-sm-8 col-8 my-3  ms-auto me-auto">
+
+
+<div class="container col-lg-10 col-md-11 col-sm-12 col-xs-10 ">
+       
+        <% if(event.enrolled.length == 0){ %> 
+
+            <div class="container">
+                <div  class="row text-center" >
+                    <h1 style="font-family: 'Comic Sans MS', 'Comic Sans', 'cursive';" >No Participants</h1>         
+                </div>
+            </div>
+           
+            <% }else{ %> 
+                <h2 style="font-family: 'Comic Sans MS', 'Comic Sans', 'cursive';" class="mb-2">Participants</h2>
+
+    <div class="row ms-auto me-auto" >
+        <% for(let c of event.enrolled){ %>
+            
+              <div class="col-lg-6 col-md-6 col-sm-12 col-12 card mb-2 pt-1 px-2 enroll_candi" >
+
+                <div class="m-1" style="display: flex;flex-direction: row;">
+                    <img src="<%= c.profilePicUrl %> " alt="profilePic" style="border-radius: 50%; width: 60px; height: 60px;" >
+                    <h3 class=" my-auto ms-3"><%= c.name %>&nbsp; </h3>
+                    <% if(c.isAdmin){ %> 
+                        <img src="/styles/verified.png" alt="Verified" height="20px" width="20px" style="border-radius: 50%;top: 20px; position: relative;">
+                    <% } %> 
+                </div>
+                <div class="col-12 col-lg-12 col-sm-12 col-md-12 text-center mt-2 email_">
+                    <h6> <span> Email:</span> <%= c.email %> </h6>
+                </div>
+
+                <div class=" me-3  ms-auto pb-1">
+                    <a href="/event/<%= event.id %>/profile/<%= c.id %>/view" class=" link-primary my-2">Info</a>
+                </div>
+
+              </div>
+        <% } %> 
+    
+    </div>
+<% } %> 
+</div>
+

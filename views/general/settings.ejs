@@ -1,0 +1,338 @@
+<% layout('layout/boilerplate') %>
+    <style>
+        .form-group {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            padding-left: 10%;
+        }
+
+        label {
+            width: 110px;
+            text-align: right;
+            margin-right: 20px;
+        }
+
+        hr {
+            /* margin: 20px 25px 30px; */
+            width: 70vw;
+            border: 0;
+            border-top: 1.2px solid rgba(155, 155, 163, 0.637);
+        }
+
+        .star:after {
+            content: "*";
+            font-size: 1.25rem;
+            color: red;
+        }
+
+        .in {
+            width: 30vw;
+        }
+
+        @media screen and (max-width: 768px) {
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                padding-left: 10%;
+            }
+
+            hr {
+                width: 90%;
+            }
+
+            label {
+
+                text-align: left;
+            }
+
+            .in {
+                width: 100%;
+            }
+        }
+
+        @media screen and (min-width: 769px) and (max-width:991px) {
+            .in {
+                width: 84%;
+            }
+        }
+
+        @media screen and (min-width:992px) {
+            .in {
+                width: 84%;
+            }
+        }
+        .check{
+            background-color: #2a95ec71;
+            border: 1px solid rgb(255, 253, 253);
+            border-radius: 20px;
+            margin-top: 10px;
+            padding-top: 1.5px;
+            padding-bottom: 1.5px;
+        }
+        .clubs_list{
+            align-items: center;
+            justify-content: center;
+        }
+        @media screen and (min-width:992px)  {
+        .clubs_list{
+                align-items: center;
+                justify-content: center;
+        }
+        .check{
+            /* margin: 10px 20px;
+             */
+             margin: 8px 3.8%;
+        }
+
+        }
+
+        @media screen and (max-width:991px) and (min-width:768px)  {
+       
+        .check{
+            margin: 10px 24px;
+        }
+
+        }
+
+        @media screen and (max-width:767px)   {
+       
+       .check{
+            border-radius: 5px;
+          
+       }
+
+       }
+   
+        
+    </style>
+    <link
+        href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
+        rel="stylesheet">
+
+    <div class="row">
+
+
+        <div class="col-lg-11 col-md-12  ms-auto me-auto pb-5 "
+            style="align-items: center;box-shadow: 0px 0px 10px 5px #888;">
+
+            <div>
+                <h2 style="font-weight: 380;" class="p-3 my-2 mx-1">General Settings</h2>
+                <hr class="ms-auto me-auto">
+            </div>
+
+            <div class="card shadow col-lg-10 col-md-12 ms-auto me-auto">
+
+                <p class="pt-3 px-3"><span class="star">Required</span></p>
+
+                <form action="/settings/<%= user.id %>?_method=PUT" class="form-horizontal mb-3 needs-validation"
+                    method="POST" novalidate>
+
+                    <div class="form-group">
+                        <label class="control-label required star" for="name">Name</label>
+                        <div class="col-md-10 col-sm-10 col-11">
+                            <input type="text" class="form-control in" id="name" name="name" value="<%= user.name %>"
+                                required>
+                            <div class="valid-feedback">
+                                Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                                Please enter a username!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label required star" for="email">Email address</label>
+                        <div class="col-md-10 col-sm-10 col-11">
+                            <input type="email" class="form-control in" id="email" name="email"
+                                value="<%= user.email %>" readonly required>
+                            <div class="invalid-feedback">
+                                Please enter a valid email!
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="control-label required" for="degree">Degree</label>
+                        <div class="col-md-10 col-sm-10 col-11">
+                            <select class="form-select in" aria-label="Default select example" id="degree"
+                                name="degree">
+                                <option value='undefined' <%=user.degree==='undefined' ? 'selected' : '' %> >---- Select
+                                    ----</option>
+                                <option value="BTech" <%=user.degree==='BTech' ? 'selected' : '' %> >BTech</option>
+                                <option value="MTech" <%=user.degree==='MTech' ? 'selected' : '' %> >MTech</option>
+                                <option value="PhD" <%=user.degree==='PhD' ? 'selected' : '' %> >PhD</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="control-label required" for="facebook">Facebook</label>
+                        <div class="col-md-10 col-sm-10 col-11">
+                            <input type="string" class="form-control in" id="facebook" name="facebook"
+                                value="<%= user.facebook %>" placeholder="https://www.facebook.com/XYZ/">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="control-label required" for="insta">Instagram</label>
+                        <div class="col-md-10 col-sm-10 col-11">
+                            <input type="string" class="form-control in" id="insta" name="instagram"
+                                value="<%= user.instagram %>" placeholder="https://www.instagram.com/XYZ/">
+                        </div>
+                    </div>
+
+                    <div class="form-group mb-4">
+                        <label class="control-label required" for="twitter">Twitter</label>
+                        <div class="col-md-10 col-sm-10 col-11">
+                            <input type="string" class="form-control in" id="twitter" name="twitter"
+                                value="<%= user.twitter %>" placeholder="https://twitter.com/XYZ/">
+                        </div>
+                    </div>
+
+
+                    <div class="container clubs_list">
+                        <div class="row">
+                            <h4>Add Favourites</h4>
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="Cyberlabs" value="CyberLabs"
+                                    <%=user.interested.indexOf('CyberLabs') !==-1 ? 'checked' : '' %> > CyberLabs
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="Codeism" value="CodeISM"
+                                    <%=user.interested.indexOf('CodeISM') !==-1 ? 'checked' : '' %>> CodeISM
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="LITM" value="LITM"
+                                    <%=user.interested.indexOf('LITM') !==-1 ? 'checked' : '' %>> LITM
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="wtc" value="WTC"
+                                    <%=user.interested.indexOf('WTC') !==-1 ? 'checked' : '' %>> WTC
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="artfreaks" value="ArtFreaks"
+                                    <%=user.interested.indexOf('ArtFreaks') !==-1 ? 'checked' : '' %>> ArtFreaks
+                            </div>
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="manthon" value="Manthan"
+                                    <%=user.interested.indexOf('Manthan') !==-1 ? 'checked' : '' %>> Manthon
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="MD" value="MD"
+                                    <%=user.interested.indexOf('MD') !==-1 ? 'checked' : '' %>> Mailer Daemon
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="LITC" value="LITC"
+                                    <%=user.interested.indexOf('LITC') !==-1 ? 'checked' : '' %>> litc
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="LITM" value="Mechismu"
+                                    <%=user.interested.indexOf('Mechismu') !==-1 ? 'checked' : '' %>> Mechismu
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="CS" value="CS"
+                                    <%=user.interested.indexOf('CS') !==-1 ? 'checked' : '' %>> Chayanika Sangh
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="Ecell" value="Ecell"
+                                    <%=user.interested.indexOf('Ecell') !==-1 ? 'checked' : '' %>> E-cell
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="ARKA" value="ARKA"
+                                    <%=user.interested.indexOf('ARKA') !==-1 ? 'checked' : '' %>> ARKA
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="Quiziapa" value="Quiziapa"
+                                    <%=user.interested.indexOf('Quiziapa') !==-1 ? 'checked' : '' %>> Quiziapa
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="Udaan" value="Udaan"
+                                    <%=user.interested.indexOf('Udaan') !==-1 ? 'checked' : '' %>> Udaan
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="ToastMasters" value="ToastMasters"
+                                    <%=user.interested.indexOf('ToastMasters') !==-1 ? 'checked' : '' %>> ToastMasters
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="FFI" value="FFI"
+                                    <%=user.interested.indexOf('FFI') !==-1 ? 'checked' : '' %>> FFI
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="Kartavya" value="Kartavya"
+                                    <%=user.interested.indexOf('Kartavya') !==-1 ? 'checked' : '' %>> Kartavya
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="Rhythm" value="Rhythm"
+                                    <%=user.interested.indexOf('Rhythm') !==-1 ? 'checked' : '' %>> Rhythm
+                            </div>
+
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="LCI" value="LCI"
+                                    <%=user.interested.indexOf('LCI') !==-1 ? 'checked' : '' %>> LCI
+                            </div>
+
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="RoboISM" value="RoboISM"
+                                    <%=user.interested.indexOf('RoboISM') !==-1 ? 'checked' : '' %>> RoboISM
+                            </div>
+
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="ADC" value="ADC"
+                                    <%=user.interested.indexOf('ADC') !==-1 ? 'checked' : '' %>> ADC
+                            </div>
+
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="LiveTalksISM" value="LiveTalksISM"
+                                    <%=user.interested.indexOf('LiveTalksISM') !==-1 ? 'checked' : '' %>> LiveTalksISM
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="BookClubISM" value="BookClubISM"
+                                    <%=user.interested.indexOf('BookClubISM') !==-1 ? 'checked' : '' %>> Book Club
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="comedy" value="ComedyISM"
+                                    <%=user.interested.indexOf('ComedyISM') !==-1 ? 'checked' : '' %>> Comedy Club
+                            </div>
+
+                            <div class="col-lg-3 col-md-5 col-sm-12 check">
+                                <input type="checkbox" name="interested" id="FotoFreaks" value="FotoFreaks"
+                                    <%=user.interested.indexOf('FotoFreaks') !==-1 ? 'checked' : '' %>> Foto Freaks
+                            </div>
+
+
+
+                            <!-- /*
+    col-sm- (small devices - screen width equal to or greater than 576px)
+    col-md- (medium devices - screen width equal to or greater than 768px)  
+    col-lg- (large devices - screen width equal to or greater than 992px)
+    */  -->
+                        </div>
+                    </div>
+                    <div class="text-center mt-3">
+                        <button type="submit" class="btn btn-primary" id="submit">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>

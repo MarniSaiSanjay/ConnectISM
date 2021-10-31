@@ -1,0 +1,134 @@
+<% layout('layout/boilerplate') %>
+    <style>
+       hr{
+           margin-top: 25px;
+       }
+       .star:after {
+            content: "*";
+            font-size: 1.25rem;
+            color: red;
+        }
+        .updatee:hover{
+            position: relative;
+            bottom: 5px;
+        }
+      
+    </style>
+
+    <div class="container col-lg-10 col-sm-12 col-md-11 col-xs-12 col-12" style="margin-top: 5vh; ">
+        <div class="row">
+            <div class="card shadow-lg updatee">
+                <div class="card-body">
+                  <h2 style="font-weight: 380;" class="card-title">Update Event</h2>
+                  <hr>
+                  <form action="/event/<%= event.id %>?_method=PUT" method="post" class="needs-validation" novalidate>
+                    <div class="row mb-3">
+                      <label for="title" class="col-sm-4 col-form-label star">Title</label>
+                      <div class="col-lg-7 col-md-11 col-12 col-sm-12">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="Title" value="<%= event.title %>" required >
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                          Please enter a title!
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="description" class="col-sm-4 col-form-label">Description</label>
+                        <div class="col-lg-7 col-md-11 col-12 col-sm-12">
+                            <textarea type="text" rows="6" name="description" placeholder="Description" value="<%= event.description %>" class="form-control" id="description" ><%= event.description %></textarea>
+                        </div>
+                    </div>
+
+                    <% var a = event.date;
+                    // console.log(a);
+                    var b = a.toString(); //console.log(b);
+                    var c = b.substring(0,15); // substring -> (starting index, ending index(excluded))
+                    var arr = c.split(" ");
+                    var date = arr[2];var year = arr[3];var day = arr[0];
+                    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+                    var mon = months.indexOf(arr[1])+1;
+                    var dateArray = [date, mon, year];
+                    var fDate = dateArray.join('/');
+                    var onlyDate = fDate + ' (' + day + ')'; //console.log(onlyDate);
+                    var d = b.substr(16,8)  // d-> time; substr -> (index, length from that index) 
+                    var displayDate = onlyDate + ',' + d  + ' hours';
+                    %>
+
+                    <% var ok  = event.date.toLocaleString( { timeZone: 'IST' });
+                       var da = event.date.getDate();
+                       if (da <10) da = '0' + da;
+                       var mon = event.date.getMonth();
+                       mon++;
+                       if (mon <10)mon = '0' + mon;
+                       var year = event.date.getFullYear();
+                       
+                       var ho = event.date.getHours();
+                       if (ho <10)ho = '0' + ho;
+                       var min = event.date.getMinutes();
+                       if(min<10)min = '0' + min;
+                      
+                      var d_date = year + '-' + mon + '-' + da + 'T' + ho + ':' + min; // 2018-06-12T19:30
+                    %> 
+
+                    <div class="row mb-3">
+                      <label for="eventdate" class="col-sm-4 col-form-label star">Date</label>
+                      <div class="col-lg-7 col-md-11 col-12 col-sm-12">
+                        <input type="datetime-local" name="date" id="eventdate" class="form-control" value="<%= d_date %>" required>
+                        <div class="valid-feedback">
+                          Looks good!
+                        </div>
+                        <div class="invalid-feedback">
+                          Please select a date!
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="row mb-3">
+                        <label for="eventvenue" class="col-sm-4 col-form-label star">Venue</label>
+                        <div class="col-lg-7 col-md-11 col-12 col-sm-12">
+                            <input type="text" name="venue" placeholder="GoogleMeet/SAC" id="eventvenue" class="form-control" value="<%= event.venue %>" required> 
+                            <div class="valid-feedback">
+                              Looks good!
+                            </div>
+                            <div class="invalid-feedback">
+                              Please add a venue!
+                            </div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-3">
+                        <label for="club" class="col-sm-4 col-form-label col-10">Club</label>
+                        <div class="col-lg-7 col-md-11 col-12 col-sm-12">
+                            
+                                <select class="form-select in" aria-label="Default select example" id="club" name="club">
+                                    <option value="undefined" <%=event.club==='undefined' ? 'selected' : '' %> >--Select Club--
+                                    </option>
+                                    <option value="CyberLabs" <%=event.club==='CyberLabs' ? 'selected' : '' %> >CyberLabs
+                                    </option>
+                                    <option value="CodeISM" <%=event.club==='CodeISM' ? 'selected' : '' %>>CodeISM</option>
+                                    <option value="LITM" <%=event.club==='LITM' ? 'selected' : '' %>>LITM</option>
+                                    <option value="WTC" <%=event.club==='WTC' ? 'selected' : '' %>>WTC</option>
+                                    <option value="ArtFreaks" <%=event.club==='ArtFreaks' ? 'selected' : '' %>>ArtFreaks
+                                    </option>
+                                    <option value="Manthan" <%=event.club==='Manthan' ? 'selected' : '' %>>Manthon</option>
+                                </select>
+
+                            </div>
+                      </div>
+                      <p class="star" style="text-align: right; width: 92%;">Required</p>
+
+                      <button class="btn btn-primary me-3" type="submit">Update</button>
+                     
+                        <button type="button" value="Go back!" onclick="history.back()" class="btn btn-outline-info">Back</button>
+
+                  </form>
+                 
+                  <p class="card-text"><small class="text-muted">Please check date and time: <%= displayDate %>  </small></p>
+
+                </div>
+              </div>
+        </div>
+    </div>

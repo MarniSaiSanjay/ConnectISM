@@ -1,0 +1,67 @@
+<% layout('layout/boilerplate') %>
+    <link rel="stylesheet" href="/styles/signin.css">
+
+    <style>
+        main{
+            margin-top: auto;
+        }
+        .google {
+            background-color: #dd4b39;
+            color: white;
+        }
+
+        .google:hover {
+            background-color: white;
+            color: #dd4b39;
+        }
+
+        .googleDiv {
+            background-color: #379ceea8;
+            /* margin-top: 22vh; */
+            border-radius: 4px;
+            box-shadow: 0 5px 20px rgba(33, 33, 33, 0.363);
+        }
+        /* .googleDiv:hover {
+            
+        } */
+        .googleLogin:hover{
+            position: relative;
+            bottom: 0.3px;
+        }
+        .spa{
+            color: #004de6;
+            font-size: 1.5rem;
+        }
+        
+        @media screen and (max-width:575px) and (min-width:450px) {
+            h5{
+                font-size: 1.1rem;
+            }
+        }
+
+        @media screen and (max-width:449px) and (min-width:0px) {
+            h5{
+                font-size: 0.83rem;
+            }
+            .spa{
+                font-size: 1.15rem;
+            }
+        }
+       
+    </style>
+
+<div class="container">
+        <div class="row text-center googleDiv py-4 px-3  align-items-center">
+            <div class="col-lg-6 col-11 ms-auto me-auto"  class="video">
+                <video width="100%" height="100%" autoplay controls muted>
+                    <source src="/styles/connectISMvideo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                  </video>
+            </div>
+            <div class=" col-lg-6 col-11 googleLogin ms-auto me-auto">
+                <a href="/users/google" class="google btn form-signin my-4 direct "><i class="fa fa-google fa-fw">
+                    </i> Login with Google+
+                </a>
+            </div>
+        </div>
+    </div>

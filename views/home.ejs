@@ -1,0 +1,353 @@
+<% layout('layout/boilerplate') %>
+
+
+    <style>
+        #pop-up {
+            display: none;
+            background: rgba(0, 0, 0, 0.5);
+            width: 90%;
+            height: 80%;
+            position: absolute;
+
+        }
+
+        body {
+            background-color: rgba(0, 0, 0, .08);
+            /* rgba(146, 140, 141, 0.119) */
+        }
+
+        .contain {
+            background-color: white;
+            border: 1.5px solid black;
+            padding: 10px;
+            border-radius: 3px;
+        }
+
+        #enrolled {
+            display: none;
+        }
+
+        #enroll :visited {
+            display: none;
+        }
+
+        .form-group {
+            padding: 0.5vh 0;
+        }
+
+        .in {
+            margin: 0.2vh 0;
+            width: 50vw;
+        }
+
+        .each_event:hover {
+            box-shadow: 0 0 20px rgba(33, 33, 33, .2);
+            position: relative;
+            bottom: 5px;
+            left: 2px;
+        }
+
+        .small {
+            display: none;
+        }
+
+        @media screen and (max-width:400px) {
+            .larg {
+                display: none;
+            }
+
+            .small {
+                display: flex;
+            }
+
+        }
+
+        @media screen and (max-width: 680px) {
+            .in {
+                width: 70vw;
+            }
+        }
+
+        .enroll_btn {
+            flex-direction: row;
+        }
+
+        @media screen and (max-width: 258px) {
+            .enroll_btn {
+                flex-direction: column;
+            }
+
+            .enroll_btn form {
+                margin: 3px 0;
+            }
+        }
+
+        @media screen and (max-width:450px) {
+            .new_event {
+                width: 80%;
+                margin-left: 10%;
+                margin-top: 6px;
+            }
+        }
+
+        #offcanvasTop {
+            height: 90vh;
+        }
+
+        @media screen and (max-width: 200px) {
+            #offcanvasTop {
+                height: 95vh;
+            }
+        }
+
+        .star:after {
+            content: "*";
+            font-size: 1.25rem;
+            color: red;
+        }
+        /* .wrapper{
+            max-height: 100px;
+            overflow-y: scroll;
+        } */
+        
+    </style>
+
+    <% if(currentUser.isAdmin){ %>
+
+        <button class="btn btn-success new_event" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasTop" aria-controls="offcanvasTop"><i class="fas fa-plus "></i>&nbsp;New
+            Event</button>
+        <% } %>
+
+            <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+
+                <div class="container">
+                    <div class="offcanvas-header">
+                        <h5 id="offcanvasTopLabel ">Add New Event</h5>
+                        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                            aria-label="Close"></button>
+                    </div>
+                    <div class="offcanvas-body">
+
+                        <form action="/event" method="post" class="form-horizontal mb-3 new-event needs-validation"
+                            novalidate>
+                            <div class="form-group ">
+                                <label class="control-label star" for="title">Title</label>
+                                <div class="col-sm-5">
+
+                                    <input type="text" class="form-control in" id="title" name="title"
+                                        placeholder="Title" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please enter a title!
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label " for="description">Description</label>
+                                <div class="col-sm-5">
+
+                                    <input type="text" class="form-control in" id="description" name="description"
+                                        placeholder="Description">
+
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label star" for="date">Date</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control in" type="datetime-local" name="date" id="date" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please select a date!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group ">
+                                <label class="control-label star" for="venue">Venue</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control in" type="text" name="venue" id="venue"
+                                        placeholder="GoogleMeet/SAC" required>
+                                    <div class="valid-feedback">
+                                        Looks good!
+                                    </div>
+                                    <div class="invalid-feedback">
+                                        Please add a venue!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="wrapper" >                           
+                            <div class="form-group my-3 col-md-6 col-sm-10">
+                                <!-- <label class=" " style="text-align: left;" for="club">Is this a club meet?</label> -->
+                                <div class="col-sm-5 club_options">
+                                    <select class="form-select in" aria-label="Default select example" id="club" onmousedown="if(this.options.length>8){this.size=8;}"  onchange='this.size=0;' onblur="this.size=0;"
+                                        name="club">
+                                        <option value='undefined' selected>--Club-- </option>
+                                        <option value="MD">Mailer Daemon</option>
+                                        <option value="LITC">LITC</option>
+                                        <option value="Mechismu">Mechismu</option>
+                                        <option value="CyberLabs">Cyberlabs</option>
+                                        <option value="CS">Chayanika Sangh</option>
+                                        <option value="Ecell">E-cell</option>
+                                        <option value="ARKA">ARKA</option>
+                                        <option value="Quiziapa">Quiziapa</option>
+                                        <option value="Udaan">Udaan</option>
+                                        <option value="ToastMasters">ToastMasters</option>
+                                        <option value="FFI">FFI</option>
+                                        <option value="WTC">WTC</option>
+                                        <option value="Kartavya">Kartavya</option>
+                                        <option value="Rhythm">Rhythm</option>
+                                        <option value="LITM">LITM</option>
+                                        <option value="LCI">Lights-Camera-ISM</option>
+                                        <option value="FotoFreaks">Foto Freaks</option>
+                                        <option value="RoboISM">RoboISM</option>
+                                        <option value="Manthan">Manthan</option>
+                                        <option value="ADC">ADC</option>
+                                        <option value="ArtFreaks">ArtFreaks</option>
+                                        <option value="LiveTalksISM">LiveTalksISM</option>
+                                        <option value="BookClubISM">Book Club IIT ISM</option>
+                                        <option value="ComedyISM">Comedy Club IIT ISM</option>
+                                        <option value="CodeISM">CodeISM</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <p class="px-4 pt-1 text-muted"><sup>*</sup>If this is a club event.</p>
+                                </div>
+                            </div>
+                        </div>
+                            <p style="text-align: right; width: 60%;"><span class="star">Required</span></p>
+                            <button class="btn btn-success" type="submit">Add</button>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- list of events -->
+            <div class="row" style="align-items: center;justify-content: center;">
+                <% for(let e of events) {%>
+                    <div class="card col-lg-11 col-md-11 col-sm-11 col-10 my-3 each_event">
+                        <div class="card-body">
+                            <h3 class="card-title">Title: <%= e.title %>
+                                    <% if(e.date < new Date() ){ %>
+                                        <span
+                                            style="background-color: green; border-radius: 20px; font-size: 20px; color: white;"
+                                            class=" text-center px-1 py-1">
+                                            <i class="fas fa-check-circle"></i></span>
+                                        <% } %>
+                            </h3>
+
+                            <% if(e.description!='' ) {%>
+                                <h6 class="card-text" style="color: rgba(24, 22, 22, 0.705);">
+                                    <%= e.description %>
+                                </h6>
+                                <% } %>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <% if(e.club!='undefined' ){ %>
+                                    <h6 class="text-muted"> Organised by: <%= e.club %>
+                                    </h6>
+                                    <% }else{ %>
+                                        <h6 class="text-muted"> Organised by: <%= e.author.name %>
+                                        </h6>
+                                        <% } %>
+                            </li>
+
+                            <% var a=e.date; /* console.log(a); */ var b=a.toString(); /* console.log(b); */ var
+                                c=b.substring(0,15); /* substring -> (starting index, ending index(excluded)) */
+                                var arr = c.split(" ");
+                                var date = arr[2];var year = arr[3];var day = arr[0];
+                                var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct",
+                                "Nov", "Dec"];
+                                var mon = months.indexOf(arr[1])+1;
+                                var dateArray = [date, mon, year];
+                                var fDate = dateArray.join('/');
+                                var onlyDate = fDate + ' (' + day + ')'; // console.log(onlyDate);
+                                var time = b.substr(16,8) + ' hours' /* time -> time of event; substr -> (index, length
+                                from that index)*/
+                                var displayDate = onlyDate;
+
+                                %>
+                                <li class="list-group-item" class="date_field">Date: <%= displayDate %>
+                                </li>
+                                <li class="list-group-item">
+                                    Time: <%= time %>
+                                </li>
+
+                                <li class="list-group-item">Venue: <%= e.venue %>
+                                </li>
+                                <li class="list-group-item">Enrolled: <%= e.enrolled.length %>
+                                </li>
+                        </ul>
+                        <div class="card-body">
+                            <% if(!e.author.equals(currentUser._id) && e.date> new Date() ){ %>
+                                <div style="display: flex; " class="enroll_btn">
+                                    <form action="/event/<%= e.id %>/enroll" method="post">
+                                        <button type="submit" id="enroll" class="me-2 btn btn-success">Enroll</button>
+                                    </form>
+                                    <form action="/event/<%= e.id %>/unenroll" method="post">
+                                        <button type="submit" id="unenroll" class="btn btn-danger">UnEnroll</button>
+                                    </form>
+
+                                </div>
+                                <% } %>
+                                    <% if (currentUser && e.author.equals(currentUser._id) ){ %>
+                                        <div style="display: flex; flex-direction: row;">
+                                            <div class="col-lg-11 col-sm-11 col-md-11 col-10 ">
+                                                <a href="/event/<%= e.id %>/edit"
+                                                    class="col-lg-10 col-md-10 col-sm-4 col-8 btn btn-info my-1"
+                                                    style="width: auto;">Edit</a>
+
+                                                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                                                    data-bs-target="#deleteModal">
+                                                    Delete
+                                                </button>
+                                                <!-- Modal -->
+                                                <div class="modal fade" id="deleteModal" tabindex="-1"
+                                                    aria-labelledby="deleteLabel" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="deleteLabel">Are you sure to
+                                                                    delete?</h5>
+                                                                <button type="button" class="btn-close"
+                                                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <p>This action cannot be undone.</p>
+
+                                                                <form action="/event/<%= e.id %>?_method=DELETE"
+                                                                    method="POST"
+                                                                    class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                                                    <button type="submit" class="btn btn-danger mt-1"
+                                                                        style="width: 100%;">Yes
+                                                                    </button>
+                                                                </form>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <a href="/event/<%= e.id %>/ecandidates"
+                                                style="font-family: sans-serif; font-size: 20px; width: 100%;"
+                                                class="link-primary larg">Details</a>
+                                            <a href="/event/<%= e.id %>/ecandidates" class="link-primary small">
+                                                <i class="fas fa-info pt-2" style="font-size: 1.8rem;"></i></a>
+                                        </div>
+                                        <% } %>
+                        </div>
+                    </div>
+                    <% } %>
+            </div>

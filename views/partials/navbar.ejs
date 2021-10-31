@@ -1,0 +1,205 @@
+<style>
+  .admin:hover {
+    background-color: rgb(237, 237, 243);
+  }
+  .pro_pic:hover{
+    background-color: rgb(237, 237, 243);
+  }
+  .menu-scroll {
+    overflow-y: scroll;
+    max-height: 290px;
+}
+
+  @media screen and (max-width: 767px) {
+    .adm {
+      margin-top: 10px;
+    }
+  }
+</style>
+
+<nav class="navbar navbar-expand-xl navbar-dark bg-dark p-2 w-100">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/home">connectISM</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="nav-link active" aria-current="page" href="/home"><i class="fas fa-home"
+            style="color: white;">&nbsp</i>Home</a>
+        <% if(currentUser){ %> <a class="nav-link active" <%=currentUser ? " " : 'disabled' %> href="/user/<%=
+              currentUser.id %>/enrolledList"><i class="fas fa-users"></i> Enrolled</a>
+          <% } %>
+
+          <li class="nav-item">
+            <a class="nav-link" href="/home?completed=true"><i class="fas fa-history"></i> PastEvents</a>
+          </li>
+
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle <%= currentUser ? '' : 'disabled'%>" <%=currentUser ? '' : 'disabled'
+                %>
+                href="#" id="navbarDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false" >
+                <i class="fas fa-heart"></i>&nbsp;Favourites
+              </a>
+              <ul class="dropdown-menu menu-scroll" aria-labelledby="navbarDropdownMenuLink">
+                <% if(currentUser && currentUser.interested.length!=0){ %>
+                  <% for(let i of currentUser.interested){ %>
+                    <li><a class="dropdown-item" href="/home?club=<%= i %>">
+                        <%= i %>
+                      </a></li>
+                    <% if(i !=currentUser.interested[currentUser.interested.length-1]){ %>
+                      <div class="dropdown-divider"></div>
+                      <% } %>
+                        <% } %>
+                          <% }else {%>
+                            <li class="text-center"><a href="/settings" class=" dropdown-item"> Add Favourites </a>
+                            </li>
+                            <% } %>
+              </ul>
+            </div>
+
+      </div>
+
+      <div class="navbar-nav ms-auto">
+        <% if(!currentUser) {%>
+          <a href="/users/login" class="nav-link" style="font-weight: 500; font-size: 18px;"><i style="font-size: 1.3rem;" class="fas fa-sign-in-alt"></i> Login</a>
+          <!-- <a href="/users/register" class="nav-link">Signup</a> -->
+          <% } else { %>
+            <!-- <a href="/settings" class="nav-link"><i class="fas fa-cog fa-spin"></i>Settings</a> -->
+
+            <div class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fas fa-cog fa-spin"></i>Settings
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="/profile" style=" margin-right: -1vw;"><img
+                      src="<%= currentUser.profilePicUrl %>" class="mt-auto mb-auto"
+                      style="height: 4.5vh; width: 4.5vh; border-radius: 50%;">&nbsp;My Profile</a></li>
+                <li style="font-size: 14px;"><a class="dropdown-item" href="/settings"><i style="font-size: 1.1rem;"
+                      class="fas fa-wrench"></i>&nbsp;General Settings</a></li>
+
+                  <% if(currentUser){ %> 
+                <li class="pro_pic"><button type="button" class="btn" data-bs-toggle="modal"
+                      data-bs-target="#picModal" style="font-size: 14px;"> <i style="font-size: 1.1rem;"
+                       class="far fa-image "></i> Change Photo </button></li>
+                  <% } %> 
+
+                <% if(currentUser.isAdmin){ %>
+                  <li class="admin"><button type="button" class="btn" data-bs-toggle="modal"
+                      data-bs-target="#adminModal" style="font-size: 14px;"> <i style="font-size: 1.1rem;"
+                        class="fas fa-user-shield"></i> Manage Admins</button></li>
+                  <% } %>
+
+                    <!-- <li style="font-size: 14px;"><a class="dropdown-item" href="#"><i style="font-size: 1.1rem;" class="fas fa-lock"></i>&nbsp;Change Password</a></li> -->
+                    <div class="dropdown-divider"></div>
+                    <li style="font-size: 14px;"><a class="dropdown-item" href="/users/logout"><i
+                          style="font-size: 1.2rem;" class="fas fa-sign-out-alt"></i>&nbsp;Sign Out</a></li>
+              </ul>
+            </div>
+
+            <a href="/users/logout" class="nav-link"> <i class="fas fa-sign-out-alt fa-2x"></i></a>
+            <% } %>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+
+<!-- Admin Modal -->
+<% if(currentUser && currentUser.isAdmin){ %>
+  <div class="modal fade " id="adminModal" tabindex="-1" aria-labelledby="adminLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="adminLabel"><i class="fas fa-user-lock"></i> &nbsp;Manage Admins</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+          <form action="/settings/<%= currentUser.id %>/addadmin" method="post"
+            class="row form-horizontal m-3 needs-validation" novalidate>
+
+            <div class="col-lg-6 col-md-6 col-sm-10">
+              <label for="email" class="visually-hidden">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Email" name="email" autocomplete="off"
+                required>
+              <div class="invalid-feedback">
+                Please enter a valid email!
+              </div>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-3 adm">Add admin</button>
+            </div>
+
+          </form>
+
+          <form action="/settings/<%= currentUser.id %>/removeadmin" method="post"
+            class="row form-horizontal m-3 needs-validation" novalidate>
+
+            <div class="col-lg-6 col-md-6 col-sm-10">
+              <label for="email" class="visually-hidden">Email</label>
+              <input type="email" class="form-control" id="email" placeholder="Email" name="email" autocomplete="off"
+                required>
+              <div class="invalid-feedback">
+                Please enter a valid email!
+              </div>
+            </div>
+            <div class="col-auto">
+              <button type="submit" class="btn btn-primary mb-3 adm">Remove admin</button>
+            </div>
+
+          </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+
+  
+    <!-- Change photo modal -->
+    <% if(currentUser){ %>
+      <div class="modal fade " id="picModal" tabindex="-1" aria-labelledby="picLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="adminLabel"> &nbsp;Change Photo</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            
+            <div class="modal-body">
+              <form action="/image/<%= currentUser.id %>/propic" method="post" class="row form-horizontal m-3 needs-validation"
+                enctype="multipart/form-data" novalidate>
+
+                <div class="col-lg-6 col-md-6 col-sm-10">
+                  
+                  <label for="profilePic" class="visually-hidden">Add Photo</label>
+                  <input type="file" name="profilePic" id="profilePic" required>
+                 
+                  <div class="invalid-feedback">
+                    Please select a picture!
+                  </div>
+                
+                </div>
+
+                <div class="col-auto">
+                  <button type="submit" class="btn btn-primary mb-3 adm">Update</button>
+                </div>
+
+              </form>
+            </div>
+            
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <% } %>
