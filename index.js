@@ -33,7 +33,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const dbURL =  process.env.DB_URL || 'mongodb://localhost:27017/ismConnect';
+const dbURL = 'mongodb://localhost:27017/ismConnect';
 
 // Connect MongoDB at default port 27017.
 mongoose.connect( dbURL, {
@@ -83,8 +83,6 @@ const styleSrcUrls = [
     "*.fontawesome.com",
     "https://use.fontawesome.com/",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css",
-    // "https://cdn.jsdelivr.net/npm/pretty-checkbox@3.0/dist/pretty-checkbox.min.css"
-
 ];
 const connectSrcUrls = [
     "*.fontawesome.com"
@@ -108,7 +106,8 @@ app.use(
                 "blob:",
                 "data:",
                 "https://res.cloudinary.com/diaeuyinc/", //SHOULD MATCH OUR CLOUDINARY ACCOUNT NAME!
-                "https://lh3.googleusercontent.com" // to load google photos that I used from gmail.
+                "https://lh3.googleusercontent.com", // to load google photos that I used from gmail.
+                "https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"
             ],
             fontSrc: ["'self'", ...fontSrcUrls],
             mediaSrc: ["'self'"]
