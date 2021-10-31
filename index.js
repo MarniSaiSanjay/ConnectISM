@@ -116,7 +116,7 @@ app.use(
     })
 );
 
-const secret = pro.env.secret || 'thisisasecret';
+const secret = process.env.secret || 'thisisasecret';
 const store = new MongoStore({
     mongoUrl: dbURL,
     secret: secret,
