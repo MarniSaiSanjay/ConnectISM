@@ -13,7 +13,7 @@ router.get('/google', passport.authenticate('google', {
 }));
 
 // REDIRECT URL:
-router.get('/google/redirect', passport.authenticate('google'), (req, res) => {
+router.get('/google/redirect/', passport.authenticate('google'), (req, res) => {
     req.flash('primary', `Welcome ${req.user.name}`)
     res.redirect('/home');
 });
