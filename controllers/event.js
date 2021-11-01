@@ -28,7 +28,13 @@ module.exports.addEvent = async (req, res) => {
 
 module.exports.edit_form = async (req, res) => {
     const event = await Event.findById(req.params.id);
-    res.render('event/update', { event });
+    if (event !== null) {
+        res.render('event/update', { event });
+    }
+    else {
+        req.flash('error', 'Event might be deleted or not yet made.');
+        res.redirect('/home');
+    }
 };
 
 module.exports.update = async (req, res) => {
@@ -65,65 +71,84 @@ module.exports.delete = async (req, res) => {
 module.exports.enroll_post = async (req, res) => {
     const { id } = req.params;
     const event = await Event.findById(id);
-    const i = req.user.id;
-    if (event.author === i) {
-        req.flash('error', 'You are the host..');
-        res.redirect('/home');
-    } else if (event.date < new Date()) {
-        req.flash('error', 'Event is completed!');
-        res.redirect('/home');
-    }
-    else {
-        for (let c of event.enrolled) {
-            if (c == i) { // already enrolled
-                req.flash('error', 'Already enrolled');
-                return res.redirect('/home');
-            }
+    if (event !== null) {
+        const i = req.user.id;
+        if (event.author === i) {
+            req.flash('error', 'You are the host..');
+            res.redirect('/home');
+        } else if (event.date < new Date()) {
+            req.flash('error', 'Event is completed!');
+            res.redirect('/home');
         }
-        event.enrolled.push(i);
-        await event.save();
+        else {
+            for (let c of event.enrolled) {
+                if (c == i) { // already enrolled
+                    req.flash('error', 'Already enrolled');
+                    return res.redirect('/home');
+                }
+            }
+            event.enrolled.push(i);
+            await event.save();
 
-        // adding this event to user.
-        const user_id = req.user.id;
-        const user = await GoogleUser.findById(user_id);
-        user.enrollIn.push(id);
-        await user.save();
+            // adding this event to user.
+            const user_id = req.user.id;
+            const user = await GoogleUser.findById(user_id);
+            user.enrollIn.push(id);
+            await user.save();
 
-        // console.log(user);
-        req.flash('success', 'Enrolled succesfully');
+            // console.log(user);
+            req.flash('success', 'Enrolled succesfully');
+            res.redirect('/home');
+        }
+    } else {
+        req.flash('error', 'Event might be deleted or not yet made.');
         res.redirect('/home');
     }
+
 };
 
 module.exports.unenroll_post = async (req, res) => {
     const { id } = req.params;
     const event = await Event.findById(id);
-    const i = req.user.id;
-    if (event.author === i) {
-        req.flash('error', 'You are the host..');
-        res.redirect('/home');
-    } else if (event.date < new Date()) {
-        req.flash('error', 'Event is completed!');
-        res.redirect('/home');
+    if (event !== null) {
+        const i = req.user.id;
+        if (event.author === i) {
+            req.flash('error', 'You are the host..');
+            res.redirect('/home');
+        } else if (event.date < new Date()) {
+            req.flash('error', 'Event is completed!');
+            res.redirect('/home');
+        }
+        else {
+            for (let c of event.enrolled) {
+                if (c == i) { // already enrolled
+                    await Event.findByIdAndUpdate(id, { $pull: { enrolled: i } });  // no need to save this as it pulls and updates it.
+                    await GoogleUser.findByIdAndUpdate(i, { $pull: { enrollIn: id } });
+                    req.flash('success', 'Unenrolled successfully!');
+                    return res.redirect('/home');
+                }
+            }
+            req.flash('error', 'Not enrolled to unenroll');
+            res.redirect('/home');
+        }
     }
     else {
-        for (let c of event.enrolled) {
-            if (c == i) { // already enrolled
-                await Event.findByIdAndUpdate(id, { $pull: { enrolled: i } });  // no need to save this as it pulls and updates it.
-                await GoogleUser.findByIdAndUpdate(i, { $pull: { enrollIn: id } });
-                req.flash('success', 'Unenrolled successfully!');
-                return res.redirect('/home');
-            }
-        }
-        req.flash('error', 'Not enrolled to unenroll');
+        req.flash('error', 'Event might be deleted or not yet made.');
         res.redirect('/home');
     }
+
 };
 
 module.exports.candidates = async (req, res) => { // enrolled candidates list for an event
     const { id } = req.params;
     const event = await Event.findById(id).populate('enrolled').populate('author');
-    res.render('general/enrolledList', { event });
+    if (event !== null) {
+        res.render('general/enrolledList', { event });
+    }
+    else {
+        req.flash('error', 'Event might be deleted or not yet made.');
+        res.redirect('/home');
+    }
 };
 
 module.exports.candidate_profile = async (req, res) => { // route to view candidate profile

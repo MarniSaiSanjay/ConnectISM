@@ -26,7 +26,7 @@ module.exports.isLoggedIn = (req, res, next) => {
 module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const event = await Event.findById(id);
-    if (event.author.equals(req.user._id)) {
+    if ( event !== null &&  event.author.equals(req.user._id)) {
         next();
     } else {
         req.flash('error', 'Not allowed to do that!');
