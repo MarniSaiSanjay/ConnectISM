@@ -18,7 +18,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "/users/google/redirect/"
+    callbackURL: "/users/google/redirect"
 },
     async (accessToken, refreshToken, profile, email, done) => { // no need of using profile here.
         const { _json } = email;
