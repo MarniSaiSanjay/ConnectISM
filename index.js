@@ -33,7 +33,7 @@ const mongoose = require('mongoose');
 
 mongoose.Promise = global.Promise;
 
-const dbURL = process.env.dbURL || 'mongodb://localhost:27017/ismConnect';
+const dbURL = process.env.DB_URL || 'mongodb://localhost:27017/ismConnect';
 
 
 mongoose.connect( dbURL, {
@@ -115,24 +115,29 @@ app.use(
     })
 );
 
-const secret = process.env.secret || 'thisisasecret';
-const store = MongoStore.create({
-    mongoUrl: dbURL,
-    secret: secret,
-    touchAfter: 24*3600 // in sec, to update information in session after 24*3600 sec, if no change is made instead of updating every time.
-});
+const secret = process.env.SECRET || 'thisisasecret';
+// const store = new MongoStore({
+//     mongoUrl: dbURL,
+//     secret: secret,
+//     touchAfter: 24*3600 // in sec, to update information in session after 24*3600 sec, if no change is made instead of updating every time.
+// });
 
-store.on('error', function(e){
-    console.log('Session store error', e);
-})
+// store.on('error', function(e){
+//     console.log('Session store error', e);
+// })
 
 // for passport:
 app.use(session({
-    store: store,  // now mongo will be used to store sessions.
+    // store: store,  // now mongo will be used to store sessions.
+    store: MongoStore.create({
+        mongoUrl: dbURL,
+        secret: secret,
+        touchAfter: 24*3600
+    }),
     name: 'ISMconnect',
     secret,
-    resave: true,
-    saveUninitialized: true,
+    saveUninitialized: false, // don't create session until something stored
+    resave: false, //don't save session if unmodified
     cookie:{
         httpOnly: true,
         maxAge:1000*60*60*24*7
