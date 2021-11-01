@@ -8,7 +8,7 @@
             padding-left: 10%;
         }
 
-        label {
+       .form-group label {
             width: 110px;
             text-align: right;
             margin-right: 20px;
@@ -104,7 +104,11 @@
        }
 
        }
-   
+       .check label{
+        width: 90%;
+       }
+
+
         
     </style>
     <link
@@ -196,130 +200,130 @@
                     <div class="container clubs_list">
                         <div class="row">
                             <h4>Add Favourites</h4>
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="Cyberlabs" value="CyberLabs"
-                                    <%=user.interested.indexOf('CyberLabs') !==-1 ? 'checked' : '' %> > CyberLabs
-                            </div>
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="Codeism" value="CodeISM"
-                                    <%=user.interested.indexOf('CodeISM') !==-1 ? 'checked' : '' %>> CodeISM
-                            </div>
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="LITM" value="LITM"
-                                    <%=user.interested.indexOf('LITM') !==-1 ? 'checked' : '' %>> LITM
-                            </div>
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="wtc" value="WTC"
-                                    <%=user.interested.indexOf('WTC') !==-1 ? 'checked' : '' %>> WTC
-                            </div>
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="artfreaks" value="ArtFreaks"
-                                    <%=user.interested.indexOf('ArtFreaks') !==-1 ? 'checked' : '' %>> ArtFreaks
-                            </div>
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="manthon" value="Manthan"
-                                    <%=user.interested.indexOf('Manthan') !==-1 ? 'checked' : '' %>> Manthon
-                            </div>
+                   
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Cyberlabs" value="CyberLabs"
+                                <%=user.interested.indexOf('CyberLabs') !==-1 ? 'checked' : '' %> > <label for="Cyberlabs"> CyberLabs </label>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Codeism" value="CodeISM"
+                                <%=user.interested.indexOf('CodeISM') !==-1 ? 'checked' : '' %>> <label for="Codeism"> CodeISM </label>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="LITM" value="LITM"
+                                <%=user.interested.indexOf('LITM') !==-1 ? 'checked' : '' %>> <label for="LITM"> LITM </label>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="WTC" value="WTC"
+                                <%=user.interested.indexOf('WTC') !==-1 ? 'checked' : '' %>> <label for="WTC">WTC</label>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Artfreaks" value="ArtFreaks"
+                                <%=user.interested.indexOf('ArtFreaks') !==-1 ? 'checked' : '' %>> <label for="Artfreaks">ArtFreaks</label>
+                        </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Manthon" value="Manthan"
+                                <%=user.interested.indexOf('Manthan') !==-1 ? 'checked' : '' %>> <label for="Manthon">Manthon</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="MD" value="MD"
-                                    <%=user.interested.indexOf('MD') !==-1 ? 'checked' : '' %>> Mailer Daemon
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="MD" value="MD"
+                                <%=user.interested.indexOf('MD') !==-1 ? 'checked' : '' %>> <label for="MD"> Mailer Daemon </label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="LITC" value="LITC"
-                                    <%=user.interested.indexOf('LITC') !==-1 ? 'checked' : '' %>> litc
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="LITC" value="LITC"
+                                <%=user.interested.indexOf('LITC') !==-1 ? 'checked' : '' %>> <label for="LITC">LITC</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="LITM" value="Mechismu"
-                                    <%=user.interested.indexOf('Mechismu') !==-1 ? 'checked' : '' %>> Mechismu
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Mechismu" value="Mechismu"
+                                <%=user.interested.indexOf('Mechismu') !==-1 ? 'checked' : '' %>> <label for="Mechismu">Mechismu</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="CS" value="CS"
-                                    <%=user.interested.indexOf('CS') !==-1 ? 'checked' : '' %>> Chayanika Sangh
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="CS" value="CS"
+                                <%=user.interested.indexOf('CS') !==-1 ? 'checked' : '' %>> <label for="CS" class="chayn-sin">Chayanika Sangh</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="Ecell" value="Ecell"
-                                    <%=user.interested.indexOf('Ecell') !==-1 ? 'checked' : '' %>> E-cell
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Ecell" value="Ecell"
+                                <%=user.interested.indexOf('Ecell') !==-1 ? 'checked' : '' %>> <label for="Ecell">E-cell</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="ARKA" value="ARKA"
-                                    <%=user.interested.indexOf('ARKA') !==-1 ? 'checked' : '' %>> ARKA
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="ARKA" value="ARKA"
+                                <%=user.interested.indexOf('ARKA') !==-1 ? 'checked' : '' %>> <label for="ARKA">ARKA</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="Quiziapa" value="Quiziapa"
-                                    <%=user.interested.indexOf('Quiziapa') !==-1 ? 'checked' : '' %>> Quiziapa
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Quiziapa" value="Quiziapa"
+                                <%=user.interested.indexOf('Quiziapa') !==-1 ? 'checked' : '' %>> <label for="Quiziapa">Quiziapa</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="Udaan" value="Udaan"
-                                    <%=user.interested.indexOf('Udaan') !==-1 ? 'checked' : '' %>> Udaan
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Udaan" value="Udaan"
+                                <%=user.interested.indexOf('Udaan') !==-1 ? 'checked' : '' %>> <label for="Udaan">Udaan</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="ToastMasters" value="ToastMasters"
-                                    <%=user.interested.indexOf('ToastMasters') !==-1 ? 'checked' : '' %>> ToastMasters
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="ToastMasters" value="ToastMasters"
+                                <%=user.interested.indexOf('ToastMasters') !==-1 ? 'checked' : '' %>> <label for="ToastMasters">ToastMasters</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="FFI" value="FFI"
-                                    <%=user.interested.indexOf('FFI') !==-1 ? 'checked' : '' %>> FFI
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="FFI" value="FFI"
+                                <%=user.interested.indexOf('FFI') !==-1 ? 'checked' : '' %>> <label for="FFI">FFI</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="Kartavya" value="Kartavya"
-                                    <%=user.interested.indexOf('Kartavya') !==-1 ? 'checked' : '' %>> Kartavya
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Kartavya" value="Kartavya"
+                                <%=user.interested.indexOf('Kartavya') !==-1 ? 'checked' : '' %>> <label for="Kartavya">Kartavya</label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="Rhythm" value="Rhythm"
-                                    <%=user.interested.indexOf('Rhythm') !==-1 ? 'checked' : '' %>> Rhythm
-                            </div>
-
-
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="LCI" value="LCI"
-                                    <%=user.interested.indexOf('LCI') !==-1 ? 'checked' : '' %>> LCI
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="Rhythm" value="Rhythm"
+                                <%=user.interested.indexOf('Rhythm') !==-1 ? 'checked' : '' %>> <label for="Rhythm">Rhythm</label>
+                        </div>
 
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="RoboISM" value="RoboISM"
-                                    <%=user.interested.indexOf('RoboISM') !==-1 ? 'checked' : '' %>> RoboISM
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="LCI" value="LCI"
+                                <%=user.interested.indexOf('LCI') !==-1 ? 'checked' : '' %>> <label for="LCI">LCI </label> 
+                        </div>
 
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="ADC" value="ADC"
-                                    <%=user.interested.indexOf('ADC') !==-1 ? 'checked' : '' %>> ADC
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="RoboISM" value="RoboISM"
+                                <%=user.interested.indexOf('RoboISM') !==-1 ? 'checked' : '' %>> <label for="RoboISM"> RoboISM </label>
+                        </div>
 
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="LiveTalksISM" value="LiveTalksISM"
-                                    <%=user.interested.indexOf('LiveTalksISM') !==-1 ? 'checked' : '' %>> LiveTalksISM
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="ADC" value="ADC"
+                                <%=user.interested.indexOf('ADC') !==-1 ? 'checked' : '' %>> <label for="ADC"> ADC </label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="BookClubISM" value="BookClubISM"
-                                    <%=user.interested.indexOf('BookClubISM') !==-1 ? 'checked' : '' %>> Book Club
-                            </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="comedy" value="ComedyISM"
-                                    <%=user.interested.indexOf('ComedyISM') !==-1 ? 'checked' : '' %>> Comedy Club
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="LiveTalksISM" value="LiveTalksISM"
+                                <%=user.interested.indexOf('LiveTalksISM') !==-1 ? 'checked' : '' %>> <label for="LiveTalksISM"> LiveTalksISM </label>
+                        </div>
 
-                            <div class="col-lg-3 col-md-5 col-sm-12 check">
-                                <input type="checkbox" name="interested" id="FotoFreaks" value="FotoFreaks"
-                                    <%=user.interested.indexOf('FotoFreaks') !==-1 ? 'checked' : '' %>> Foto Freaks
-                            </div>
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="BookClubISM" value="BookClubISM"
+                                <%=user.interested.indexOf('BookClubISM') !==-1 ? 'checked' : '' %>> <label for="BookClubISM"> Book Club </label>
+                        </div>
 
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="comedy" value="ComedyISM"
+                                <%=user.interested.indexOf('ComedyISM') !==-1 ? 'checked' : '' %>> <label for="comedy"> Comedy Club </label>
+                        </div>
+
+                        <div class="col-lg-3 col-md-5 col-sm-12 check">
+                            <input type="checkbox" name="interested" id="FotoFreaks" value="FotoFreaks"
+                                <%=user.interested.indexOf('FotoFreaks') !==-1 ? 'checked' : '' %>> <label for="FotoFreaks"> Foto Freaks </label>
+                        </div>
 
 
                             <!-- /*
