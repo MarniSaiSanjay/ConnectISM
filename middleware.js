@@ -96,7 +96,7 @@ const UserSchema =  JOI.object({
     email: JOI.string().required().escapeHTML(),
     googleId: JOI.string().escapeHTML(),
     profilePicUrl: JOI.string().escapeHTML(),
-    profilePicfileName : JOI.string().allow('').default('').escapeHTML(),
+    public_id : JOI.string().allow('').default('').escapeHTML(),
     degree: JOI.string().default('undefined').escapeHTML(),
     isAdmin: JOI.boolean(),
     facebook: JOI.string().allow('').default('').escapeHTML(),

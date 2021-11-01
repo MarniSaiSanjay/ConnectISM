@@ -139,8 +139,8 @@ module.exports.enrolledList = async (req, res) => {
                 events.push(e);
             }
         }
-       
-         if (events) {
+
+        if (events) {
             res.render('home', { events });
         }
         else {
@@ -155,18 +155,20 @@ module.exports.enrolledList = async (req, res) => {
 };
 
 module.exports.changePic = (async (req, res) => { // 'profilePic' -> same as name of input field.
-    // only req.file has all the details of file added.
-    // upload.single() is given by multer to parse files.
+    // only req.file has all the details of file added. upload.single() is given by multer to parse files.
     const { id } = req.params;
 
     if (id == req.user.id && req.file) {
         const user = await GoogleUser.findById(id);
-        // await cloudinary.uploader.destroy(user.profilePicfileName); // remove the older pic from cloudinary
-        await cloudinary.uploader.destroy(user.profilePicfileName);
+
+        if (user.public_id != '') { // this is for first time change there will be no public id as image will not be in cloudinary
+            await cloudinary.uploader.destroy(user.public_id); // remove the older pic from cloudinary
+        }
+        // refer to https://githubmemory.com/repo/cloudinary-labs/cloudinary-laravel/issues/40, *add public_id as a field in database column.*
         user.profilePicUrl = req.file.path;
-        // console.log(req.file)
-        user.profilePicfileName = req.file.filename;
+        user.public_id = req.file.filename;
         await user.save();
+
         return res.redirect('/profile');
     } else {
         req.flash('error', 'Invalid Request!');

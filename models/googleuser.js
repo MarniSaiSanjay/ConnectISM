@@ -9,7 +9,10 @@ const googleUserSchema = new Schema({
         type: String,
         default: ''
     },
-    profilePicfileName : String,
+    public_id : {
+        type: String,
+        default: ''
+    },
     date: {
         type: Date,
         default: Date.now
@@ -24,7 +27,7 @@ const googleUserSchema = new Schema({
     }],
     isAdmin: {
         type: Boolean,
-        default: true
+        default: false
     },
     enrollIn:[{
         type :Schema.Types.ObjectId,
