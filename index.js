@@ -35,7 +35,7 @@ mongoose.Promise = global.Promise;
 
 const dbURL = process.env.dbURL || 'mongodb://localhost:27017/ismConnect';
 
-// Connect MongoDB at default port 27017.
+
 mongoose.connect( dbURL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -105,7 +105,7 @@ app.use(
                 "'self'",
                 "blob:",
                 "data:",
-                "https://res.cloudinary.com/diaeuyinc/", //SHOULD MATCH OUR CLOUDINARY ACCOUNT NAME!
+                "https://res.cloudinary.com/diaeuyinc/", 
                 "https://lh3.googleusercontent.com", // to load google photos that I used from gmail.
                 "https://cdn.dribbble.com/users/285475/screenshots/2083086/dribbble_1.gif"
             ],
@@ -116,7 +116,7 @@ app.use(
 );
 
 const secret = process.env.secret || 'thisisasecret';
-const store = new MongoStore({
+const store = MongoStore.create({
     mongoUrl: dbURL,
     secret: secret,
     touchAfter: 24*3600 // in sec, to update information in session after 24*3600 sec, if no change is made instead of updating every time.
@@ -147,12 +147,10 @@ app.use(flash()); // should be done after session
 
 // GLOBAL VARS:
 app.use((req, res, next) => {
-    // console.log(req.query);
     res.locals.currentUser = req.user; // 'req.user' will be a true if user is loggedIn
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
     res.locals.primary = req.flash('primary');
-  // console.log(req.user);
     next();
 })
 
@@ -161,7 +159,6 @@ app.get('/home', isLoggedIn,  async (req,res) => {
 if(club) {
     const current_time = new Date();
      const events = await Event.find({club, date: {$gt: current_time}}).populate('author', 'name').sort({date: 1});
-    //  console.log(events);
      if(events.length!=0) res.render('home', { events });
      else {
         req.flash('error', `No upcoming events by ${club}`);
@@ -170,7 +167,6 @@ if(club) {
 }
 else if(completed === 'true'){
     const current_time = new Date().getTime();
-    // const events = await Event.find({ date: { $gt: current_time } } ).populate('author', 'name').sort({date: 1});
     const events = await Event.find({ date: { $lt: current_time }}).populate('author', 'name').sort({date: -1});
      if(events.length!=0) res.render('home', { events });
      else {
@@ -196,7 +192,6 @@ app.use('/', require('./routes/general'));
 
 //404 ROUTE:
 app.all('*', (req, res, next) => {
-    // res.send("404 Error!"); // instead of responding we can throw an error.
     next(new ExpressError('Page Not Found!', 404));
 })
 
