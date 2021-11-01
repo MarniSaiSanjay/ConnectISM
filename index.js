@@ -75,7 +75,7 @@ const scriptSrcUrls = [
     "https://kit.fontawesome.com/",
     "https://cdnjs.cloudflare.com/",
     "https://cdn.jsdelivr.net",
-    "https://kit.fontawesome.com/04a114867e.js"
+    // "https://kit.fontawesome.com/04a114867e.js"
 ];
 const styleSrcUrls = [
     "https://kit-free.fontawesome.com/",
