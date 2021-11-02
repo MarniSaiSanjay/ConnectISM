@@ -13,6 +13,10 @@ const { validateEvent, validateUser, checkInterested } = require('../middleware'
 // controller
 const generalController = require('../controllers/general');
 
+router.get('/', isLoggedIn, (req,res)=>{
+    return res.redirect('/home');
+})
+
 router.get('/profile', isLoggedIn, generalController.get_profile);
 
 router.get('/settings', isLoggedIn, generalController.get_settings);

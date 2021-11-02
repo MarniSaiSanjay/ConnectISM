@@ -140,11 +140,11 @@ module.exports.enrolledList = async (req, res) => {
             }
         }
 
-        if (events) {
+        if (events.length !== 0) {
             res.render('home', { events });
         }
         else {
-            req.flash('error', 'Not enrolled in any event.');
+            req.flash('primary', 'Events you are enrolled in are completed!');
             res.redirect('/home');
         }
     } else {
