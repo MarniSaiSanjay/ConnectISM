@@ -45,6 +45,10 @@ const googleUserSchema = new Schema({
         type: String,
         default: ''
     },
+    following: [{
+        type: Schema.Types.ObjectId,
+        ref:'GoogleUser'
+    }],
 })
 
 module.exports = mongoose.model('GoogleUser', googleUserSchema);

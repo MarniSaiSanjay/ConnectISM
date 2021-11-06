@@ -1,25 +1,62 @@
 <style>
+  .pro_pic:hover,
+  .friends:hover,
   .admin:hover {
     background-color: rgb(237, 237, 243);
+    cursor: pointer;
   }
-  .pro_pic:hover{
-    background-color: rgb(237, 237, 243);
-  }
+
   .menu-scroll {
     overflow-y: scroll;
     max-height: 290px;
-}
+  }
+
+  .profile_name{
+    text-decoration: none;
+  }
+  .profile_name:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 0.12rem;
+  }
 
   @media screen and (max-width: 767px) {
     .adm {
       margin-top: 10px;
     }
   }
+
+  @media screen and (max-width:400px) {
+    .unfollow_btn {
+      display: none;
+    }
+  }
+
+  .c_img:hover {
+    animation: rot 3s linear infinite;
+  }
+
+  @keyframes rot {
+    from {
+      transform: rotateY(0deg);
+    }
+
+    to {
+      transform: rotateY(360deg);
+
+    }
+  }
+  .pop-up{
+    display: none;
+  }
+  .a_name:hover  + div{
+    display: block;
+  }
 </style>
 
 <nav class="navbar navbar-expand-xl navbar-dark bg-dark p-2 w-100">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/home"><img src="/styles/icon.png" width="30px" height="35px" style="padding-bottom: 5px;">connectISM</a>
+    <a class="navbar-brand" href="/home"><img src="/styles/icon.png" width="30px" height="35px"
+        style="padding-bottom: 5px;" class="c_img">connectISM</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
       aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -32,9 +69,9 @@
               currentUser.id %>/enrolledList"><i class="fas fa-users"></i> Enrolled</a>
           <% } %>
 
-          <li class="nav-item">
-            <a class="nav-link" href="/home?completed=true"><i class="fas fa-history"></i> PastEvents</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/home?completed=true"><i class="fas fa-history"></i> PastEvents</a>
+            </li>
 
             <div class="nav-item dropdown">
               <a class="nav-link dropdown-toggle <%= currentUser ? '' : 'disabled'%>" <%=currentUser ? '' : 'disabled'
@@ -64,7 +101,8 @@
 
       <div class="navbar-nav ms-auto">
         <% if(!currentUser) {%>
-          <a href="/users/login" class="nav-link" style="font-weight: 500; font-size: 18px;"><i style="font-size: 1.3rem;" class="fas fa-sign-in-alt"></i> Login</a>
+          <a href="/users/login" class="nav-link" style="font-weight: 500; font-size: 18px;"><i
+              style="font-size: 1.3rem;" class="fas fa-sign-in-alt"></i> Login</a>
           <!-- <a href="/users/register" class="nav-link">Signup</a> -->
           <% } else { %>
             <!-- <a href="/settings" class="nav-link"><i class="fas fa-cog fa-spin"></i>Settings</a> -->
@@ -75,28 +113,43 @@
                 <i class="fas fa-cog fa-spin"></i>Settings
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+
                 <li><a class="dropdown-item" href="/profile" style=" margin-right: -1vw;"><img
                       src="<%= currentUser.profilePicUrl %>" class="mt-auto mb-auto"
                       style="height: 4.5vh; width: 4.5vh; border-radius: 50%;">&nbsp;My Profile</a></li>
-                <li style="font-size: 14px;"><a class="dropdown-item" href="/settings"><i style="font-size: 1.1rem;"
-                      class="fas fa-wrench"></i>&nbsp;General Settings</a></li>
+                <li style="font-size: 14px;"><a class="dropdown-item" href="/settings"><i
+                      style="font-size: 1.1rem; color: rgb(101, 115, 116);" class="fas fa-wrench"></i>&nbsp;General
+                    Settings</a></li>
 
-                  <% if(currentUser){ %> 
-                <li class="pro_pic"><button type="button" class="btn" data-bs-toggle="modal"
-                      data-bs-target="#picModal" style="font-size: 14px;"> <i style="font-size: 1.1rem;"
-                       class="far fa-image "></i> Change Photo </button></li>
-                  <% } %> 
-
-                <% if(currentUser.isAdmin){ %>
-                  <li class="admin"><button type="button" class="btn" data-bs-toggle="modal"
-                      data-bs-target="#adminModal" style="font-size: 14px;"> <i style="font-size: 1.1rem;"
-                        class="fas fa-user-shield"></i> Manage Admins</button></li>
+                <% if(currentUser){ %>
+                  <li class="pro_pic"><button type="button" class="btn" data-bs-toggle="modal"
+                      data-bs-target="#picModal" style="font-size: 14px;"><i style="font-size: 1.1rem; color: blue;"
+                        class="far fa-image "></i> Change Photo </button></li>
                   <% } %>
 
-                    <!-- <li style="font-size: 14px;"><a class="dropdown-item" href="#"><i style="font-size: 1.1rem;" class="fas fa-lock"></i>&nbsp;Change Password</a></li> -->
-                    <div class="dropdown-divider"></div>
-                    <li style="font-size: 14px;"><a class="dropdown-item" href="/users/logout"><i
-                          style="font-size: 1.2rem;" class="fas fa-sign-out-alt"></i>&nbsp;Sign Out</a></li>
+                    <% if(currentUser){ %>
+                      <li class="friends"><button type="button" class="btn" data-bs-toggle="modal"
+                          data-bs-target="#friendsModal" style="font-size: 14px;"> <i
+                            style="font-size: 1.1rem; color: #FFD700;" class="fas fa-star"></i><b>
+                            <%= friendsOfUser.length %>
+                          </b> Friend<% if(friendsOfUser.length !==1){ %>s <% } %> </button></li>
+                      <% } %>
+
+                        <li style="font-size: 14px;"><a class="dropdown-item" href="/friends/addFollowing"><i
+                              style="font-size: 1.3rem; color: rgb(141, 53, 53);"
+                              class="far fa-address-card"></i>&nbsp;People</a></li>
+
+                        <% if(currentUser.isAdmin){ %>
+                          <li class="admin"><button type="button" class="btn" data-bs-toggle="modal"
+                              data-bs-target="#adminModal" style="font-size: 14px;"> <i
+                                style="font-size: 1.1rem; color: green;" class="fas fa-user-shield"></i> Manage
+                              Admins</button></li>
+                          <% } %>
+
+                            <!-- <li style="font-size: 14px;"><a class="dropdown-item" href="#"><i style="font-size: 1.1rem;" class="fas fa-lock"></i>&nbsp;Change Password</a></li> -->
+                            <div class="dropdown-divider"></div>
+                            <li style="font-size: 14px;"><a class="dropdown-item" href="/users/logout"><i
+                                  style="font-size: 1.2rem;" class="fas fa-sign-out-alt"></i>&nbsp;Sign Out</a></li>
               </ul>
             </div>
 
@@ -163,7 +216,7 @@
   </div>
   <% } %>
 
-  
+
     <!-- Change photo modal -->
     <% if(currentUser){ %>
       <div class="modal fade " id="picModal" tabindex="-1" aria-labelledby="picLabel" aria-hidden="true">
@@ -173,20 +226,20 @@
               <h5 class="modal-title" id="adminLabel"> &nbsp;Change Photo</h5>
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            
+
             <div class="modal-body">
-              <form action="/image/<%= currentUser.id %>/propic" method="post" class="row form-horizontal m-3 needs-validation"
-                enctype="multipart/form-data" novalidate>
+              <form action="/image/<%= currentUser.id %>/propic" method="post"
+                class="row form-horizontal m-3 needs-validation" enctype="multipart/form-data" novalidate>
 
                 <div class="col-lg-6 col-md-6 col-sm-10">
-                  
+
                   <label for="profilePic" class="visually-hidden">Add Photo</label>
                   <input type="file" name="profilePic" id="profilePic" required>
-                 
+
                   <div class="invalid-feedback">
                     Please select a picture!
                   </div>
-                
+
                 </div>
 
                 <div class="col-auto">
@@ -195,7 +248,7 @@
 
               </form>
             </div>
-            
+
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
@@ -203,3 +256,77 @@
         </div>
       </div>
       <% } %>
+
+
+        <!-- Friends modal -->
+        <% if(currentUser){ %>
+          <div class="modal fade " id="friendsModal" tabindex="-1" aria-labelledby="friendLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-friends modal-dialog-centered modal-dialog-scrollable">
+              <div class="modal-content modal-content-friends" style="max-height: 500px;border-radius: 10px;">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="adminLabel"> Friends</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                  <% if(friendsOfUser.length>0){ %>
+                    <% for(let f of friendsOfUser){ %>
+
+                      <div class="total_pro" style="display: flex; flex-direction: row;">
+                        <div class="profile_icon me-2 py-2">
+                          <img src="<%= f.profilePicUrl %>" alt="O" width="40px" height="40px"
+                            style="border-radius: 50%;">
+                        </div>
+                        <div class="py-2">
+                          <div style="font-weight: 470; font-size: 16px;" class=""> <a
+                              href="/friends/view/<%= f.id %>" style="color: black;" class="a_name  profile_name">
+                              <%= f.name %>
+                            </a>
+                            <!-- <div class="pop-up" style="background-color: white;border: 1px solid black; width: 700px;height: 500px; overflow: visible;">
+                              <div>
+                               <div>
+                                <%#= f.name %> 
+                               </div> 
+                                <div>
+                                  <%#= f.following.length %> 
+                                </div>
+                              </div>
+                            </div> -->
+                          </div>
+                          
+                          <div>
+                            <span style="font-weight: 400; font-size: 14px;" class="text-muted">
+                              <%= f.email.substring(0, f.email.indexOf('@')) %>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div class="my-1 ms-auto unfollow_btn">
+                          <form action="/friends/remove/<%= currentUser.id%>/<%= f.id %>" method="post">
+                            <button type="submit" class="btn btn-light"
+                              style="border: 1px solid rgba(160, 158, 158, 0.726); background-color: white;">
+                              <span style="font-weight: 500;">Unfollow</span>
+                            </button>
+                          </form>
+                        </div>
+
+                      </div>
+                      
+                      <% } %>
+
+                        <% }else{ %>
+                        <h6 style="font-size:large;"> No friends till now..</h6>
+                          <% } %>
+                          <div style="float: right;" class="me-2">
+                            <a href="/friends/addFollowing" class="btn btn-success">Add</a>
+                          </div>
+                           
+                </div>
+
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <% } %>

@@ -1,0 +1,232 @@
+<% layout('layout/boilerplate') %>
+    <style>
+        .p_pic {
+            /*  */
+            width: 33%;
+        }
+
+        .card {
+            overflow: scroll;
+        }
+
+        @media screen and (max-width:575px) {
+
+            /*0-575*/
+            .p_pic {
+                width: 130px;
+                height: 146px;
+            }
+        }
+
+
+        @media screen and (min-width:576px) and (max-width: 768px) {
+
+            /*576-768*/
+            .p_pic {
+                width: 147.5px;
+                height: 163.5px;
+            }
+        }
+
+
+        @media screen and (min-width:769px) and (max-width:992px) {
+
+            /*769-992*/
+            .p_pic {
+                width: 161px;
+                height: 177px;
+            }
+        }
+
+        @media screen and (min-width:993px) {
+
+            /* width>993px */
+            .p_pic {
+                width: 114.39px;
+                height: 130.39px;
+            }
+        }
+
+
+
+        @media screen and (max-width:767px) {
+            .card {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+
+        @media screen and (max-width: 307px) {
+            h6 {
+                font-size: 0.87rem;
+            }
+        }
+
+
+        .form-control:focus {
+            outline: none !important;
+            border: 1px solid rgb(117, 134, 209);
+            box-shadow: 0 0 10px #719ECE;
+        }
+
+        .card:hover {
+            transform: scale(1.06);
+            /*to keep at scale of 1.06 after animation is completed*/
+            box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+            animation: wave 1.5s;
+        }
+
+        @keyframes wave {
+            from {
+                transform: scale(1);
+            }
+
+            to {
+                transform: scale(1.06);
+            }
+        }
+
+        .card-title:hover {
+            text-decoration: underline;
+        }
+
+        form {
+            position: relative;
+            bottom: 15px;
+            right: 13px;
+        }
+
+        @media screen and (min-width:480px) {
+            .follow_unfollow {
+                display: flex;
+                flex-direction: row;
+            }
+
+            form {
+                position: relative;
+                bottom: 10px;
+                right: 0px;
+            }
+        }
+    </style>
+    <!-- <div >
+        <input type="text" name="searchBar" id="searchBar" />
+    </div> -->
+
+    <div class="top_side">
+        <div class="input-group">
+            <div class="form-outline" id="searchWrapper" style="display: flex;flex-direction: row;">
+                <input type="search" class="form-control mb-auto mt-auto" name="searchBar" id="searchBar"
+                    placeholder="Search" style="height: 40px; border-right: none;" />
+                <label class="form-label my-2 btn btn-primary" for="searchBar"><i class="fas fa-search"></i></label>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <div class="row mb-4 mt-3" id="list" style="justify-content: center;">
+            <% for(let u of users){ %>
+                <% if(u.id===currentUser.id) { %>
+                    <% continue; %>
+                        <% } %>
+                            <div class="card col-md-5 col-lg-3 col-11 mx-2 my-2">
+                                <img class="card-img-top p_pic ms-auto me-auto py-2" src="<%=u.profilePicUrl%>"
+                                    alt="Card image cap" style="border-radius:50%">
+                                <div class="card-body">
+                                    <div class="follow_unfollow">
+                                        <a href="/friends/view/<%= u._id %>"
+                                            style="text-decoration: none; color: rgba(12, 12, 12, 0.925);">
+                                            <h5 class="card-title ">
+                                                <%= u.name %>
+                                            </h5>
+                                        </a>
+                                        <% if(currentUser.following.indexOf(u.id)===-1){ %>
+                                            <form action="/friends/add/<%= currentUser.id%>/<%= u.id %>" method="post">
+                                                <button type="submit" class="btn btn-link " style="font-weight: 540; ">
+                                                    Follow
+                                                </button>
+                                            </form>
+                                            <% }else{ %>
+                                                <form action="/friends/remove/<%= currentUser.id%>/<%= u.id %>"
+                                                    method="post">
+                                                    <button type="submit" class="btn text-danger btn-link"
+                                                        style="font-weight: 540; ">
+                                                        Unfollow
+                                                    </button>
+                                                </form>
+                                                <% } %>
+                                    </div>
+                                    <h6 class="card-text text-muted" style="line-height: 17px;">
+                                        <%= u.email %>
+                                    </h6>
+                                    <h6>Following: <%= u.following.length %> Users</h6>
+                                    <!-- <a href="/friends/view/<%#= u._id %>" class="btn btn-outline-secondary">View</a> -->
+
+                                </div>
+                            </div>
+                            <% } %>
+        </div>
+    </div>
+
+
+    <!-- <a href="/<%= currentUser.id %>/friends">Friends</a> -->
+
+
+    <script>
+        const listOfUsers = <%- JSON.stringify(users) %>;
+        const currUser = <%- JSON.stringify(currentUser) %>;
+    </script>
+
+    <script>
+        var root = document.getElementById('list');
+        const searchBar = document.getElementById('searchBar');
+
+        searchBar.addEventListener('keyup', (e) => {
+            const searchString = e.target.value.toLowerCase();
+            const searchResults = listOfUsers.filter((character) => {
+                return (
+                    character.name.toLowerCase().includes(searchString) ||
+                    character.email.toLowerCase().includes(searchString)
+                );
+            });
+            // console.log( searchResults);
+            displayCharacters(searchResults);
+        })
+
+        const displayCharacters = (characters) => {
+            if (characters.length === 0) {
+                root.innerHTML = `
+                <div class="py-3">
+                    <h3>No results have been found &#9785;</h3>
+                </div>`;
+                return 0;
+            };
+            const htmlString = characters
+                .map((character) => {
+                    var u = character;
+
+                    return `<div class="card col-md-5 col-lg-3 col-11 mx-2 my-2" >
+                                <img class="card-img-top p_pic ms-auto me-auto py-2" src="${u.profilePicUrl}"
+                                    alt="Card image cap" style="border-radius:50%">
+                                <div class="card-body">
+                                    <div class="follow_unfollow">
+                                        <a href="/friends/view/${u._id}"
+                                            style="text-decoration: none; color: rgba(12, 12, 12, 0.925);">
+                                            <h5 class="card-title ">
+                                                ${u.name}
+                                            </h5>
+                                        </a>
+                                      
+                                    </div>
+                                    <h6 class="card-text text-muted" style="line-height: 17px;">
+                                        ${u.email}
+                                    </h6>
+                                    <h6>Following: ${u.following.length} Users</h6>
+                                </div>
+                            </div>`
+                })
+                .join('');
+            root.innerHTML = htmlString;
+        };
+    </script>

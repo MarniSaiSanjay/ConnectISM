@@ -151,9 +151,15 @@ app.use(passport.session());
 // for flash
 app.use(flash()); // should be done after session
 
+
+const GoogleUser  =require('./models/googleuser');
 // GLOBAL VARS:
-app.use((req, res, next) => {
+app.use( async (req, res, next) =>  {
     res.locals.currentUser = req.user; // 'req.user' will be a true if user is loggedIn
+    if(req.user){  
+      const Y = await GoogleUser.findById(req.user.id).populate('following');
+      res.locals.friendsOfUser = Y.following;
+    }
     res.locals.error = req.flash('error');
     res.locals.success = req.flash('success');
     res.locals.primary = req.flash('primary');
@@ -194,6 +200,7 @@ else if(completed === 'true'){
 // Authentication:
 app.use('/users', require('./routes/auth'));
 app.use('/event', require('./routes/event'));
+app.use('/friends', require('./routes/friends'));
 app.use('/', require('./routes/general'));
 
 
@@ -211,7 +218,5 @@ app.use((err, req, res, next) => {
 })
 
 const port = process.env.PORT || 3000;
+
 app.listen(port);
-
-
-

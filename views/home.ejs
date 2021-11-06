@@ -293,12 +293,15 @@
                         <div class="card-body">
                             <% if(!e.author.equals(currentUser._id) && e.date> new Date() ){ %>
                                 <div style="display: flex; " class="enroll_btn">
+                                    <% if(currentUser.enrollIn.indexOf(e.id) === -1){ %> 
                                     <form action="/event/<%= e.id %>/enroll" method="post">
                                         <button type="submit" id="enroll" class="me-2 btn btn-success">Enroll</button>
                                     </form>
+                                    <% }else{ %> 
                                     <form action="/event/<%= e.id %>/unenroll" method="post">
                                         <button type="submit" id="unenroll" class="btn btn-danger">UnEnroll</button>
                                     </form>
+                                    <% } %> 
 
                                 </div>
                                 <% } %>
