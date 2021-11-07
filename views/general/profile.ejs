@@ -186,23 +186,28 @@
                                 </h2>
 
                                 <!-- For social media handles for smaller devices -->
-                                <% if(user.facebook.length !==0 || user.instagram.length !==0 || user.twitter.length !==0){ %>
+                                <%# if(user.facebook.length !==0 || user.instagram.length !==0 || user.twitter.length
+                                    !==0){ %>
                                     <hr class="soc_small">
                                     <div class="col-12 soc_small mt-2">
                                         <!-- socialMEDIA -->
 
                                         <div class="col-4">
-                                            <% if(user.id===currentUser.id){ %> <a
+                                            <% if(user.id==currentUser.id){ %> <a
                                                     href="<%= user.instagram.length !== 0 ? user.instagram : '/settings' %>"
                                                     target="blank" class="text-muted" style="text-decoration: none;">
                                                     <i class="fab fa-instagram fa-2x ff"
                                                         style="color: #ac47c5;"></i></a>
                                                 <% }else{ %>
                                                     <% if(user.instagram!=='' ){ %> <a href="<%= user.instagram %>"
-                                                            class="col-1"> <i class="fab fabb fa-instagram fa-2x "
+                                                            target="blank" class="col-1"> <i
+                                                                class="fab fabb fa-instagram fa-2x "
                                                                 style="color: #ac47c5; width: 30%;"></i> </a>
-                                                        <% } %>
+                                                        <% }else{ %>
+                                                            <i class="fab fabb fa-instagram fa-2x col-1"
+                                                                style=" width: 30%;"></i>
                                                             <% } %>
+                                                                <% } %>
 
 
                                         </div>
@@ -215,10 +220,14 @@
                                                 </a>
                                                 <% }else{ %>
                                                     <% if(user.facebook !=='' ) {%> <a href="<%= user.facebook %>"
-                                                            class="col-4"> <i class="fab fabb fa-facebook-f fa-2x "
+                                                            target="blank" class="col-4"> <i
+                                                                class="fab fabb fa-facebook-f fa-2x "
                                                                 style="color: #1778F2; width: 30%;"></i> </a>
-                                                        <% } %>
+                                                        <% }else{ %>
+                                                            <i class="fab fabb fa-facebook-f fa-2x col-4"
+                                                                style=" width: 30%;"></i>
                                                             <% } %>
+                                                                <% } %>
 
                                         </div>
 
@@ -230,15 +239,19 @@
                                                 </a>
                                                 <% }else{ %>
                                                     <% if(user.twitter!=='' ) {%> <a href="<%= user.twitter %>"
-                                                            class="col-4"> <i class="fab fabb fa-twitter fa-2x "
+                                                            target="blank" class="col-4"> <i
+                                                                class="fab fabb fa-twitter fa-2x "
                                                                 style="color: #00ACEE; width: 30%;"></i> </a>
-                                                        <% } %>
+                                                        <% }else{ %>
+                                                            <i class="fab fabb fa-twitter fa-2x col-4"
+                                                                style=" width: 30%;"></i>
                                                             <% } %>
+                                                                <% } %>
 
                                         </div>
 
                                     </div>
-                                    <% } %>
+                                    <%# } %>
 
 
                             </div>
