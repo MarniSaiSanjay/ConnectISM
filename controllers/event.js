@@ -20,7 +20,7 @@ module.exports.addEvent = async (req, res) => {
     else {
         const newEvent = new Event({ title: title.trim(), date, venue: venue.trim(), club, description: description.trim() });
         newEvent.author = req.user.id;
-        newEvent.save();
+        await newEvent.save();
         req.flash('success', 'Created new event')
         res.redirect('/home');
     }
