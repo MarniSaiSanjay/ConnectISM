@@ -132,3 +132,18 @@
               </div>
         </div>
     </div>
+
+  <script>
+    const currentDateTimeUTC = new Date();
+
+      // Calculate the offset for IST (UTC+5:30)
+      const offsetMinutes = 5 * 60 + 30;
+
+      // Adjust the current date and time to IST
+      currentDateTimeUTC.setMinutes(currentDateTimeUTC.getMinutes() + offsetMinutes);
+
+      // Format the date and time in ISO format
+      const todayIST = currentDateTimeUTC.toISOString().slice(0, 16);
+
+      document.getElementById('eventdate').setAttribute('min', todayIST);
+  </script>
