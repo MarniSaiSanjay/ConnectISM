@@ -386,10 +386,12 @@
                                                             <%= i %>
                                                         </h5>
                                                         <% } %>
-                                                            <% }else{ %>
+                                                            <% }else if(user.id===currentUser.id) { %>
                                                                 <a href="/settings">
                                                                     <h5>Add Favourites</h5>
                                                                 </a>
+                                                                <%}else{%>
+                                                                    <span class="text-muted">--Not updated--</span>
                                                                 <%}%>
                                             </div>
                                         </div>
